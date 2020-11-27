@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Warp Chat</title>
+</head>
+
+<body>
+    <h1>dnssteal</h1>
+    <div id="chat">
+        <p><em>Connecting...</em></p>
+    </div>
+    <script type="text/javascript">
+        var uri = 'ws://' + location.host + '/chat';
+        var ws = new WebSocket(uri);
+
+        function message(data) {
+            var line = document.createElement('p');
+            var bold = document.createElement('b');
+            var br = document.createElement('br');
+            var pre = document.createElement('pre');
+            var a = document.createElement('a');
+            a.innerText = data.filename;
+            var blob = new Blob([data.content], { type: "octet/stream" });
+            a.href = window.URL.createObjectURL(blob);
+            a.download = data.filename;
+            bold.appendChild(a);
+            bold.appendChild(document.createTextNode(" (" + data.md5 + ")"));
+
+            pre.innerText = data.content;
+            line.appendChild(bold);
+            line.appendChild(br);
+            line.appendChild(pre);
+            chat.appendChild(line);
+        }
+
+        ws.onopen = function () {
+            chat.innerHTML = "<p><em>Connected!</em></p>";
+        };
+
+        ws.onclose = function () {
+            var line = document.createElement('p');
+            var text = document.createElement('em');
+            text.innerText = "Closed";
+            line.appendChild(text);
+            chat.appendChild(line);
+        };
+
+        ws.onmessage = function (msg) {
+            message(JSON.parse(msg.data));
+        };
+    </script>
+</body>
+
+</html>
