@@ -55,7 +55,7 @@ fn main() -> Result<(), Error> {
 
     let socket = UdpSocket::bind(args.listen_addr)?;
 
-    let mut rt = tokio::runtime::Runtime::new()?;
+    let rt = tokio::runtime::Runtime::new()?;
     let handle = rt.handle().clone();
     let users = Users::default();
     thread::Builder::new()
@@ -117,8 +117,6 @@ fn main() -> Result<(), Error> {
         // response.to_vec();
         socket.send_to(&*(response.to_vec()?), addr)?;
     }
-
-    Ok(())
 }
 
 fn file_writer(args: CliArgs, handle: Handle, users: Users) {
