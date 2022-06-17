@@ -9,9 +9,9 @@ default-run = "dnssteal"
 
 [dependencies]
 anyhow = "1.0.28"
-base64 = "0.12.0"
+base64 = "0.13.0"
 chrono = { version = "0.4.11", features = [ "serde" ] }
-env_logger = "0.7.1"
+env_logger = "0.9.0"
 futures = "0.3.4"
 log = "0.4.8"
 md5 = "0.7.0"
