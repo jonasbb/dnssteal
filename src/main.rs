@@ -67,11 +67,7 @@ fn main() -> Result<(), Error> {
         })?;
     thread::Builder::new()
         .name("dnssteal File Writer".to_string())
-        .spawn({
-            let args = args.clone();
-            let users = users.clone();
-            move || file_writer(args, handle, users)
-        })?;
+        .spawn(move || file_writer(args, handle, users))?;
 
     loop {
         let mut buf = [0; 4096];
